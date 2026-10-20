@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Звіти з лабораторних робіт — WEB-орієнтовані технології. Frontend розробки</title>
+    <style>
+        /* загальні стилі сторінки: шрифт, відступи, колонка на всю висоту */
+        body { font-family: 'Times New Roman', serif; margin: 0; padding: 15px; display: flex; flex-direction: column; min-height: 100vh; }
+        /* шапка з назвою та фото виконавця */
+        .header { text-align: center; margin-bottom: 20px; position: relative; }
+        .photo-box { position: absolute; top: 0; right: 20px; width: 100px; height: 130px; border: 1px solid #000; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 14px; }
+        /* горизонтальна навігація по лабораторних роботах */
+        .nav-horizontal { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+        .nav-horizontal a { padding: 15px 10px; border: 1px solid #000; border-radius: 10px; text-decoration: none; color: #000; font-size: 14px; text-align: center; }
+        .nav-horizontal a.active { background-color: #ffff99; font-weight: bold; }
+        /* дві колонки: бічне меню + основний вміст */
+        .layout { display: flex; gap: 20px; flex: 1; }
+        /* бічне меню розділів звіту */
+        .sidebar { width: 280px; display: flex; flex-direction: column; gap: 10px; }
+        .sidebar a { padding: 15px; border: 1px solid #000; border-radius: 25px; text-decoration: none; color: #000; font-size: 14px; text-align: center; background: #fff; }
+        /* область виведення інформації з власною прокруткою */
+        .main-content { flex-grow: 1; border: 2px solid #000; padding: 20px; height: 70vh; overflow-y: auto; }
+        /* оформлення розділів звіту */
+        section { border-bottom: 1px dashed #ccc; padding-bottom: 30px; margin-bottom: 30px; }
+        /* блоки з кодом */
+        pre { background: #f4f4f4; padding: 10px; border-left: 4px solid #333; overflow-x: auto; }
+        pre.long { max-height: 600px; overflow-y: auto; }
+        code { font-family: Consolas, 'Courier New', monospace; }
+        /* обгортка таблиць: горизонтальна прокрутка на вузьких екранах */
+        .tw { overflow-x: auto; }
+        /* таблиці з теорією */
+        table { border-collapse: collapse; margin: 8px 0 16px; font-size: 14px; width: 100%; }
+        caption { text-align: left; font-weight: bold; padding-bottom: 6px; }
+        th, td { border: 1px solid #999; padding: 6px 10px; text-align: left; vertical-align: top; }
+        th { background: #f4f4f4; }
+        /* скріншоти з підписами */
+        figure { margin: 8px 0 16px; }
+        figure img { max-width: 100%; border: 1px solid #ccc; }
+        figcaption { font-size: 13px; color: #555; }
+        /* макети Figma з прокруткою */
+        .shot { max-height: 560px; overflow: auto; border: 1px solid #ccc; margin: 10px 0; }
+        .shot img { width: 100%; display: block; }
+        .shot.mobile { max-width: 320px; margin: 10px auto; }
+        /* підвал звіту */
+        footer { text-align: center; margin-top: 20px; padding: 10px; border-top: 1px solid #ccc; font-size: 14px; }
+        /* адаптивність: на вузьких екранах колонки йдуть одна під одною */
+        @media (max-width: 900px) { .layout { flex-direction: column; } .sidebar { width: auto; } .main-content { height: auto; } .photo-box { position: static; margin: 10px auto; } }
+    </style>
+</head>
+<body>
+
+    <!-- ШАПКА: назва дисципліни, виконавець, фото -->
+    <header class="header">
+        <h3>ЗВІТИ З ЛАБОРАТОРНИХ РОБІТ З ДИСЦИПЛІНИ «WEB-ОРІЄНТОВАНІ ТЕХНОЛОГІЇ. FRONTEND РОЗРОБКИ»</h3>
+        <p><b>Виконавець: студентка групи ІП-45 Шмагайло Марія Євгеніївна</b></p>
+        <div class="photo-box" style="padding: 0; overflow: hidden;">
+            <img src="myphoto.jpg" alt="Фото студентки Шмагайло Марії Євгеніївни" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+        </div>
+    </header>
+
+    <!-- НАВІГАЦІЯ: перехід між лабораторними роботами -->
+    <nav class="nav-horizontal">
+        <a href="#" class="active">Лабораторна<br>робота №1</a>
+        <a href="#">Лабораторна<br>робота №2</a>
+        <a href="#">Лабораторна<br>робота №3</a>
+        <a href="#">Лабораторна<br>робота №4</a>
+        <a href="#">Лабораторна<br>робота №5</a>
+        <a href="#">Лабораторна<br>робота №6</a>
+        <a href="#">Лабораторна<br>робота №7</a>
+        <a href="#">Лабораторна<br>робота №8</a>
+        <a href="#">Лабораторна<br>робота №9</a>
+    </nav>
+
+    <!-- ОСНОВНИЙ МАКЕТ: бічне меню та вміст -->
+    <div class="layout">
+        <!-- БІЧНЕ МЕНЮ: якорі на розділи звіту -->
+        <aside class="sidebar">
+            <a href="#topic">Тема, Мета, Місце розташування сайту, звіту</a>
+            <a href="#domain">Опис предметного середовища. Опис бізнес-логіки</a>
+            <a href="#structure">Структура документа</a>
+            <a href="#code-table">HTML-код ТАБЛИЦІ</a>
+            <a href="#code-image">HTML-код ЗОБРАЖЕННЯ</a>
+            <a href="#code-form">HTML-код ФОРМИ</a>
+            <a href="#code-lists">HTML-код СПИСКІВ</a>
+            <a href="#main-page">Головна сторінка WEB-застосунку</a>
+            <a href="#main-desktop">Десктопна версія</a>
+            <a href="#main-mobile">Мобільна версія</a>
+            <a href="#main-code">Код головної сторінки WEB-застосунку</a>
+            <a href="#conclusions">Висновки</a>
+        </aside>
+
+        <!-- ОСНОВНИЙ ВМІСТ: розділи звіту -->
+        <main class="main-content">
+            <h2 style="text-align:center;">Місце виведення інформації</h2>
+
+            <!-- РОЗДІЛ: ТЕМА, МЕТА, МІСЦЕ РОЗТАШУВАННЯ -->
+            <section id="topic"><h3>Тема, мета, місце розташування сайту та звіту</h3><h4>Тема ЛР №1.1</h4><p>Розроблення головної сторінки WEB-застосунку мовою HTML: таблиці, зображення, списки, форми та посилання.</p><h4>Мета ЛР №1.1</h4><p>Вивчити структуру HTML-документа; навчитися застосовувати теги та атрибути для створення таблиць, зображень, списків і форм; розробити головну сторінку власного WEB-застосунку (сайт кав’ярні Velora) та оформити звітний HTML-документ лабораторних робіт.</p><h4>Місце розташування WEB-застосунку та звітів</h4><div class="tw"><table><caption>Посилання на репозиторії та живі сторінки</caption><thead><tr><th scope="col">Призначення</th><th scope="col">Посилання</th></tr></thead><tbody><tr><td>Репозиторій власного WEB-застосунку</td><td><a href="https://github.com/USERNAME/velora" target="_blank" rel="noopener">https://github.com/USERNAME/velora</a></td></tr><tr><td>Жива сторінка власного WEB-застосунку</td><td><a href="https://USERNAME.github.io/velora/" target="_blank" rel="noopener">https://USERNAME.github.io/velora/</a></td></tr><tr><td>Репозиторій звітного HTML-документа</td><td><a href="https://github.com/USERNAME/web-reports" target="_blank" rel="noopener">https://github.com/USERNAME/web-reports</a></td></tr><tr><td>Жива сторінка звітного HTML-документа</td><td><a href="https://USERNAME.github.io/web-reports/" target="_blank" rel="noopener">https://USERNAME.github.io/web-reports/</a></td></tr><tr><td>Репозиторій із самостійними роботами</td><td><a href="https://github.com/USERNAME/web-self-work" target="_blank" rel="noopener">https://github.com/USERNAME/web-self-work</a></td></tr><tr><td>Жива сторінка із самостійними роботами</td><td><a href="https://USERNAME.github.io/web-self-work/" target="_blank" rel="noopener">https://USERNAME.github.io/web-self-work/</a></td></tr></tbody></table></div><p><small>Посилання підставляються після розміщення репозиторіїв на GitHub та публікації сторінок через GitHub Pages.</small></p></section>
+
+            <!-- РОЗДІЛ: ПРЕДМЕТНЕ СЕРЕДОВИЩЕ ТА БІЗНЕС-ЛОГІКА -->
+            <section id="domain"><h3>Опис предметного середовища. Опис бізнес-логіки</h3><h4>Предметне середовище</h4><p><strong>Предметна галузь</strong> — громадське харчування, а саме кав’ярня. Velora — затишна кав’ярня, сайт якої працює як візитівка закладу: гість знайомиться з меню та атмосферою й залишає заявку на бронювання столу.</p><p>Весь зміст організований навколо трьох сутностей: <strong>позиція меню</strong> (назва, категорія, об’єм або вага, ціна), <strong>кав’ярня</strong> (адреса, години роботи, телефон, фото) та <strong>бронювання</strong> (ім’я, телефон, дата, кількість гостей, побажання). Користувач один — Гість; реєстрація й вхід не потрібні.</p><h4>Функціонал застосунку</h4><ul><li><strong>Головна</strong> — назва, опис, фото, кнопки «Дивитись меню» та «Забронювати», блок переваг.</li><li><strong>Улюблене гостей</strong> — п’ять карток популярних напоїв із фото, описом і ціною.</li><li><strong>Про нас</strong> — історія та цінності закладу.</li><li><strong>Меню</strong> — три таблиці: напої, десерти, сніданки до 12:00.</li><li><strong>Наші кав’ярні</strong> — фасад, зала, тераса; адреса, години роботи, телефон.</li><li><strong>Відгуки гостей</strong> — добірка відгуків.</li><li><strong>Бронювання столу</strong> — форма заявки; бронь підтверджується після дзвінка.</li></ul><h4>Бізнес-логіка (скорочений опис)</h4><ol><li>Гість відкриває сайт Velora і бачить головну сторінку.</li><li>Переглядає переваги закладу, улюблені напої, розділ «Про нас».</li><li>Переходить до меню й переглядає напої, десерти та сніданки з цінами.</li><li>Дивиться розділ «Наші кав’ярні» та читає відгуки.</li><li>Натискає «Забронювати стіл» і заповнює форму: ім’я, телефон, дата, кількість гостей, побажання.</li><li>Система перевіряє дані; за потреби гість виправляє помилки.</li><li>Система приймає заявку й показує повідомлення про успішне надсилання.</li><li>Кав’ярня телефонує гостю та підтверджує бронь.</li></ol><h4>Бізнес-правила</h4><ul><li>Шапка навігації та підвал відображаються на всіх екранах.</li><li>Для кожної позиції меню показано назву, об’єм або вагу й ціну в гривнях.</li><li>Ім’я, телефон і дата в формі обов’язкові; дата не може бути в минулому.</li><li>Бронь вважається дійсною лише після підтвердження кав’ярні по телефону.</li></ul><p>Повний опис із функціональними та нефункціональними вимогами й діаграмою варіантів використання — на сторінці <a href="https://USERNAME.github.io/velora/about.html" target="_blank" rel="noopener">«Опис предметної галузі та бізнес-логіки»</a> WEB-застосунку.</p></section>
+
+            <!-- РОЗДІЛ: СТРУКТУРА ДОКУМЕНТА -->
+            <section id="structure"><h3>Структура документа</h3><p>Головна сторінка WEB-застосунку Velora (файл <code>index.html</code>) побудована за семантичною структурою та містить обов’язкові елементи завдання.</p><ul><li><code>&lt;header&gt;</code> — заголовок <code>&lt;h1&gt;</code> та навігація <code>&lt;nav&gt;</code> з посиланнями <code>&lt;a&gt;</code><ul><li>посилання-якорі на розділи сторінки;</li><li>посилання на сторінку <code>about.html</code> з описом предметної галузі.</li></ul></li><li><code>&lt;main&gt;</code> — основний вміст<ul><li><code>&lt;section id="hero"&gt;</code> — заголовок <code>&lt;h2&gt;</code>, зображення в <code>&lt;figure&gt;</code> з <code>&lt;figcaption&gt;</code>;</li><li><code>&lt;section id="advantages"&gt;</code> — <strong>маркований список</strong> <code>&lt;ul&gt;</code>;</li><li><code>&lt;section id="popular"&gt;</code> — картки <code>&lt;article&gt;</code> із <strong>зображеннями</strong> <code>&lt;img&gt;</code> і заголовками <code>&lt;h3&gt;</code>;</li><li><code>&lt;section id="about"&gt;</code> — абзаци <code>&lt;p&gt;</code>, зображення;</li><li><code>&lt;section id="menu"&gt;</code> — три <strong>таблиці</strong> <code>&lt;table&gt;</code> (напої, десерти, сніданки);</li><li><code>&lt;section id="places"&gt;</code> — зображення, контакти в <code>&lt;address&gt;</code> зі списком;</li><li><code>&lt;section id="reviews"&gt;</code> — відгуки в <code>&lt;blockquote&gt;</code>;</li><li><code>&lt;section id="booking"&gt;</code> — <strong>нумерований список</strong> <code>&lt;ol&gt;</code> та <strong>форма</strong> <code>&lt;form&gt;</code>.</li></ul></li><li><code>&lt;footer&gt;</code> — підвал із повтором навігації та посиланням на опис предметної галузі.</li></ul></section>
+
+            <!-- РОЗДІЛ: КОД ТАБЛИЦІ + скріншот + теорія -->
+            <section id="code-table"><h3>HTML-код таблиці</h3><h4>Код</h4><pre><code>&lt;table border=&quot;1&quot; cellpadding=&quot;6&quot; cellspacing=&quot;0&quot;&gt; &lt;!-- таблиця: border — рамка, cellpadding — відступ усередині комірки, cellspacing — відстань між комірками --&gt;
+        &lt;caption&gt;Напої&lt;/caption&gt; &lt;!-- підпис таблиці --&gt;
+        &lt;thead&gt; &lt;!-- група рядків заголовка --&gt;
+          &lt;tr&gt;&lt;th&gt;Напій&lt;/th&gt;&lt;th&gt;Об’єм&lt;/th&gt;&lt;th&gt;Ціна&lt;/th&gt;&lt;/tr&gt; &lt;!-- рядок із заголовками стовпців (th) --&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt; &lt;!-- основна частина таблиці --&gt;
+          &lt;tr&gt;&lt;td&gt;Еспресо&lt;/td&gt;&lt;td&gt;30 мл&lt;/td&gt;&lt;td&gt;55 ₴&lt;/td&gt;&lt;/tr&gt; &lt;!-- рядок даних: кожна комірка — td --&gt;
+          &lt;tr&gt;&lt;td&gt;Американо&lt;/td&gt;&lt;td&gt;250 мл&lt;/td&gt;&lt;td&gt;65 ₴&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Капучино&lt;/td&gt;&lt;td&gt;250 мл&lt;/td&gt;&lt;td&gt;85 ₴&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Фільтр-кава&lt;/td&gt;&lt;td&gt;300 мл&lt;/td&gt;&lt;td&gt;90 ₴&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Лате&lt;/td&gt;&lt;td&gt;300 мл&lt;/td&gt;&lt;td&gt;90 ₴&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Айс-латте&lt;/td&gt;&lt;td&gt;350 мл&lt;/td&gt;&lt;td&gt;95 ₴&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Мокка&lt;/td&gt;&lt;td&gt;250 мл&lt;/td&gt;&lt;td&gt;105 ₴&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Чай на вибір&lt;/td&gt;&lt;td&gt;400 мл&lt;/td&gt;&lt;td&gt;70 ₴&lt;/td&gt;&lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt; &lt;!-- кінець таблиці --&gt;</code></pre><h4>Скріншот таблиці</h4><figure><img src="table.png" alt="Таблиця меню «Напої»"><figcaption>Рис. 1. Таблиця «Напої» у браузері</figcaption></figure><h4>Теорія: теги та атрибути для створення таблиць</h4><p>Таблиця в HTML — це структурований набір даних, розташованих у рядках і стовпцях. Для її створення використовують спеціальні теги.</p><div class="tw"><table><caption>Теги таблиць</caption><thead><tr><th scope="col">Тег</th><th scope="col">Призначення</th></tr></thead><tbody><tr><td><code>&lt;table&gt;</code></td><td>контейнер таблиці</td></tr><tr><td><code>&lt;caption&gt;</code></td><td>заголовок (підпис) таблиці</td></tr><tr><td><code>&lt;thead&gt;</code></td><td>група рядків заголовка таблиці</td></tr><tr><td><code>&lt;tbody&gt;</code></td><td>група рядків основної частини</td></tr><tr><td><code>&lt;tfoot&gt;</code></td><td>група рядків підсумків (підвал таблиці)</td></tr><tr><td><code>&lt;tr&gt;</code></td><td>рядок таблиці</td></tr><tr><td><code>&lt;th&gt;</code></td><td>комірка-заголовок (за замовчуванням жирна та по центру)</td></tr><tr><td><code>&lt;td&gt;</code></td><td>звичайна комірка з даними</td></tr><tr><td><code>&lt;colgroup&gt;, &lt;col&gt;</code></td><td>опис груп стовпців</td></tr></tbody></table></div><div class="tw"><table><caption>Атрибути таблиць</caption><thead><tr><th scope="col">Атрибут</th><th scope="col">Тег</th><th scope="col">Призначення</th></tr></thead><tbody><tr><td><code>border</code></td><td><code>&lt;table&gt;</code></td><td>товщина рамки таблиці в пікселях (в сучасних проєктах замінюється CSS)</td></tr><tr><td><code>cellpadding</code></td><td><code>&lt;table&gt;</code></td><td>відступ між вмістом комірки та її межею</td></tr><tr><td><code>cellspacing</code></td><td><code>&lt;table&gt;</code></td><td>відстань між комірками</td></tr><tr><td><code>width</code></td><td><code>&lt;table&gt;, &lt;td&gt;, &lt;th&gt;</code></td><td>ширина таблиці або комірки</td></tr><tr><td><code>colspan</code></td><td><code>&lt;td&gt;, &lt;th&gt;</code></td><td>кількість стовпців, які об’єднує комірка</td></tr><tr><td><code>rowspan</code></td><td><code>&lt;td&gt;, &lt;th&gt;</code></td><td>кількість рядків, які об’єднує комірка</td></tr><tr><td><code>scope</code></td><td><code>&lt;th&gt;</code></td><td>показує, до чого відноситься заголовок: col (стовпець) або row (рядок); важливо для доступності</td></tr><tr><td><code>headers</code></td><td><code>&lt;td&gt;</code></td><td>зв’язок комірки із заголовками за їхнім id</td></tr><tr><td><code>align, valign</code></td><td><code>&lt;td&gt;, &lt;th&gt;</code></td><td>вирівнювання вмісту (застарілі, краще CSS)</td></tr></tbody></table></div><p>У нашій таблиці використано <code>&lt;caption&gt;</code>, <code>&lt;thead&gt;</code> та <code>&lt;tbody&gt;</code>, що робить структуру зрозумілою для браузерів і програм екранного читання.</p></section>
+
+            <!-- РОЗДІЛ: КОД ЗОБРАЖЕННЯ + скріншот + теорія -->
+            <section id="code-image"><h3>HTML-код зображення</h3><h4>Код</h4><pre><code>&lt;figure&gt; &lt;!-- figure — ілюстрація з підписом --&gt;
+        &lt;img src=&quot;mainphoto.png&quot; alt=&quot;Лате в керамічній чашці на дерев’яному столі&quot; width=&quot;400&quot;&gt; &lt;!-- src — файл, alt — опис, width — ширина в пікселях --&gt;
+        &lt;figcaption&gt;Кава. Спокій. Велора. &lt;em&gt;Смакуйте мить&lt;/em&gt;&lt;/figcaption&gt; &lt;!-- підпис до зображення; em — наголос --&gt;
+      &lt;/figure&gt; &lt;!-- кінець ілюстрації --&gt;</code></pre><h4>Скріншот зображення</h4><figure><img src="image.png" alt="Фото чашки лате з головної сторінки"><figcaption>Рис. 2. Зображення з підписом у браузері</figcaption></figure><h4>Теорія: тег <code>&lt;img&gt;</code> та його атрибути</h4><p>Тег <code>&lt;img&gt;</code> вставляє зображення в документ. Він є одинарним (не має закривального тега). Для підпису зображення використовують пару <code>&lt;figure&gt;</code> і <code>&lt;figcaption&gt;</code>.</p><div class="tw"><table><caption>Атрибути тега img</caption><thead><tr><th scope="col">Атрибут</th><th scope="col">Призначення</th></tr></thead><tbody><tr><td><code>src</code></td><td>обов’язковий; шлях до файлу зображення (відносний або абсолютний URL)</td></tr><tr><td><code>alt</code></td><td>обов’язковий; альтернативний текст, який показується, якщо зображення не завантажилось, і читається програмами екранного читання</td></tr><tr><td><code>width</code></td><td>ширина зображення в пікселях</td></tr><tr><td><code>height</code></td><td>висота зображення в пікселях</td></tr><tr><td><code>title</code></td><td>підказка, що з’являється при наведенні курсора</td></tr><tr><td><code>loading</code></td><td>відкладене завантаження: lazy або eager</td></tr><tr><td><code>srcset, sizes</code></td><td>набір зображень різного розміру для адаптивних екранів</td></tr><tr><td><code>class, id, style</code></td><td>глобальні атрибути для стилізації та ідентифікації</td></tr></tbody></table></div></section>
+
+            <!-- РОЗДІЛ: КОД ФОРМИ + скріншот + теорія -->
+            <section id="code-form"><h3>HTML-код форми</h3><h4>Код</h4><pre><code>&lt;form action=&quot;#&quot; method=&quot;post&quot;&gt; &lt;!-- форма: action — куди надсилати, method — як надсилати --&gt;
+        &lt;p&gt;
+          &lt;label for=&quot;name&quot;&gt;Ім’я:&lt;/label&gt;&lt;br&gt; &lt;!-- label зв’язано з полем через for та id --&gt;
+          &lt;input type=&quot;text&quot; id=&quot;name&quot; name=&quot;name&quot; placeholder=&quot;Ваше ім’я&quot; required&gt; &lt;!-- текстове поле; required — обов’язкове --&gt;
+        &lt;/p&gt;
+        &lt;p&gt;
+          &lt;label for=&quot;phone&quot;&gt;Телефон:&lt;/label&gt;&lt;br&gt;
+          &lt;input type=&quot;tel&quot; id=&quot;phone&quot; name=&quot;phone&quot; placeholder=&quot;+380&quot; required&gt; &lt;!-- поле для телефону --&gt;
+        &lt;/p&gt;
+        &lt;p&gt;
+          &lt;label for=&quot;date&quot;&gt;Дата:&lt;/label&gt;&lt;br&gt;
+          &lt;input type=&quot;date&quot; id=&quot;date&quot; name=&quot;date&quot; required&gt; &lt;!-- вибір дати --&gt;
+        &lt;/p&gt;
+        &lt;p&gt;
+          &lt;label for=&quot;guests&quot;&gt;Гостей:&lt;/label&gt;&lt;br&gt;
+          &lt;select id=&quot;guests&quot; name=&quot;guests&quot;&gt; &lt;!-- випадаючий список кількості гостей --&gt;
+            &lt;option value=&quot;1-2&quot;&gt;1–2&lt;/option&gt; &lt;!-- пункт списку; value — значення, яке передається --&gt;
+            &lt;option value=&quot;3-4&quot;&gt;3–4&lt;/option&gt;
+            &lt;option value=&quot;5-6&quot;&gt;5–6&lt;/option&gt;
+            &lt;option value=&quot;7+&quot;&gt;7+&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/p&gt;
+        &lt;p&gt;
+          &lt;label for=&quot;wishes&quot;&gt;Побажання:&lt;/label&gt;&lt;br&gt;
+          &lt;textarea id=&quot;wishes&quot; name=&quot;wishes&quot; rows=&quot;4&quot; cols=&quot;40&quot; placeholder=&quot;Наприклад, місце біля вікна&quot;&gt;&lt;/textarea&gt; &lt;!-- багаторядкове поле; rows, cols — розмір --&gt;
+        &lt;/p&gt;
+        &lt;p&gt;
+          &lt;button type=&quot;submit&quot;&gt;Надіслати заявку&lt;/button&gt; &lt;!-- кнопка надсилання форми --&gt;
+          &lt;button type=&quot;reset&quot;&gt;Очистити&lt;/button&gt; &lt;!-- кнопка очищення форми --&gt;
+        &lt;/p&gt;
+        &lt;p&gt;&lt;small&gt;Бронювання підтверджується після дзвінка.&lt;/small&gt;&lt;/p&gt; &lt;!-- дрібна примітка --&gt;
+      &lt;/form&gt;</code></pre><h4>Скріншот форми</h4><figure><img src="form.png" alt="Форма бронювання столу"><figcaption>Рис. 3. Форма бронювання у браузері</figcaption></figure><h4>Теорія: теги та атрибути форм</h4><p>Форма дає змогу користувачу вводити дані та надсилати їх на сервер.</p><div class="tw"><table><caption>Теги форм</caption><thead><tr><th scope="col">Тег</th><th scope="col">Призначення</th></tr></thead><tbody><tr><td><code>&lt;form&gt;</code></td><td>контейнер форми</td></tr><tr><td><code>&lt;label&gt;</code></td><td>підпис до поля; зв’язується з полем через атрибут for</td></tr><tr><td><code>&lt;input&gt;</code></td><td>поле введення; вигляд залежить від атрибута type</td></tr><tr><td><code>&lt;select&gt;, &lt;option&gt;</code></td><td>випадаючий список і його пункти</td></tr><tr><td><code>&lt;textarea&gt;</code></td><td>багаторядкове текстове поле</td></tr><tr><td><code>&lt;button&gt;</code></td><td>кнопка (відправлення, скидання, звичайна)</td></tr><tr><td><code>&lt;fieldset&gt;, &lt;legend&gt;</code></td><td>групування полів і заголовок групи</td></tr></tbody></table></div><div class="tw"><table><caption>Атрибути форм</caption><thead><tr><th scope="col">Атрибут</th><th scope="col">Призначення</th></tr></thead><tbody><tr><td><code>action</code></td><td>адреса, на яку надсилаються дані форми</td></tr><tr><td><code>method</code></td><td>метод надсилання: get або post</td></tr><tr><td><code>type</code></td><td>тип поля input: text, tel, date, email, number, checkbox, radio, submit тощо</td></tr><tr><td><code>name</code></td><td>ім’я поля, під яким дані передаються на сервер</td></tr><tr><td><code>id</code></td><td>унікальний ідентифікатор; зв’язує поле з label</td></tr><tr><td><code>for</code></td><td>в label вказує id поля, до якого належить підпис</td></tr><tr><td><code>placeholder</code></td><td>підказка всередині порожнього поля</td></tr><tr><td><code>required</code></td><td>поле обов’язкове для заповнення</td></tr><tr><td><code>value</code></td><td>початкове значення поля або значення пункту списку</td></tr><tr><td><code>rows, cols</code></td><td>висота та ширина textarea в рядках і символах</td></tr></tbody></table></div></section>
+
+            <!-- РОЗДІЛ: КОД СПИСКІВ + скріншот + теорія -->
+            <section id="code-lists"><h3>HTML-код списків</h3><h4>Код</h4><pre><code>&lt;ul&gt; &lt;!-- маркований список (переваги) --&gt;
+        &lt;li&gt;&lt;strong&gt;Якісне зерно&lt;/strong&gt; — лише відібрана арабіка&lt;/li&gt; &lt;!-- елемент списку; strong — важливе --&gt;
+        &lt;li&gt;&lt;strong&gt;Майстри-баристи&lt;/strong&gt; — точність у кожній чашці&lt;/li&gt;
+        &lt;li&gt;&lt;strong&gt;Чесні постачальники&lt;/strong&gt; — відповідальний вибір&lt;/li&gt;
+        &lt;li&gt;&lt;strong&gt;З любов’ю&lt;/strong&gt; — кожна чашка зі старанням&lt;/li&gt;
+      &lt;/ul&gt;
+
+&lt;ol&gt; &lt;!-- нумерований список (кроки) --&gt;
+        &lt;li&gt;Заповніть форму: ім’я, телефон, дата та кількість гостей.&lt;/li&gt; &lt;!-- елемент нумерованого списку --&gt;
+        &lt;li&gt;Надішліть заявку.&lt;/li&gt;
+        &lt;li&gt;Ми зателефонуємо та підтвердимо бронювання.&lt;/li&gt;
+        &lt;li&gt;Приходьте в гості!&lt;/li&gt;
+      &lt;/ol&gt;
+
+&lt;ul&gt; &lt;!-- маркований список (контакти) --&gt;
+          &lt;li&gt;Адреса: м. Черкаси, вул. Садова, 14&lt;/li&gt;
+          &lt;li&gt;Години роботи: Пн–Нд, 08:00–22:00&lt;/li&gt;
+          &lt;li&gt;Телефон: &lt;a href=&quot;tel:+380675551428&quot;&gt;+380 67 555 14 28&lt;/a&gt;&lt;/li&gt; &lt;!-- tel: — посилання-дзвінок --&gt;
+        &lt;/ul&gt;</code></pre><h4>Скріншот списків</h4><figure><img src="lists.png" alt="Маркований та нумерований списки"><figcaption>Рис. 4. Маркований і нумерований списки у браузері</figcaption></figure><h4>Теорія: теги та атрибути для створення списків</h4><div class="tw"><table><caption>Теги списків</caption><thead><tr><th scope="col">Тег</th><th scope="col">Призначення</th></tr></thead><tbody><tr><td><code>&lt;ul&gt;</code></td><td>маркований (невпорядкований) список</td></tr><tr><td><code>&lt;ol&gt;</code></td><td>нумерований (впорядкований) список</td></tr><tr><td><code>&lt;li&gt;</code></td><td>елемент списку</td></tr><tr><td><code>&lt;dl&gt;</code></td><td>список визначень</td></tr><tr><td><code>&lt;dt&gt;</code></td><td>термін у списку визначень</td></tr><tr><td><code>&lt;dd&gt;</code></td><td>опис терміна</td></tr></tbody></table></div><div class="tw"><table><caption>Атрибути списків</caption><thead><tr><th scope="col">Атрибут</th><th scope="col">Тег</th><th scope="col">Призначення</th></tr></thead><tbody><tr><td><code>type</code></td><td><code>&lt;ol&gt;, &lt;ul&gt;</code></td><td>вид нумерації (1, A, a, I, i) або маркера (disc, circle, square)</td></tr><tr><td><code>start</code></td><td><code>&lt;ol&gt;</code></td><td>число, з якого починається нумерація</td></tr><tr><td><code>reversed</code></td><td><code>&lt;ol&gt;</code></td><td>зворотний порядок нумерації</td></tr><tr><td><code>value</code></td><td><code>&lt;li&gt;</code></td><td>номер конкретного елемента нумерованого списку</td></tr></tbody></table></div><p>Списки можна вкладати один в одного: усередину елемента <code>&lt;li&gt;</code> розміщують новий <code>&lt;ul&gt;</code> або <code>&lt;ol&gt;</code>. Так побудовано, зокрема, навігацію сторінки.</p></section>
+
+            <!-- РОЗДІЛ: ГОЛОВНА СТОРІНКА -->
+            <section id="main-page"><h3>Головна сторінка WEB-застосунку</h3><p>Головна сторінка WEB-застосунку Velora (файл <code>index.html</code>). Макети десктопної та мобільної версій — у підрозділах нижче, код сторінки — у розділі «Код головної сторінки WEB-застосунку».</p><p>Жива сторінка: <a href="https://USERNAME.github.io/velora/" target="_blank" rel="noopener">https://USERNAME.github.io/velora/</a></p></section>
+
+            <!-- РОЗДІЛ: ДЕСКТОПНА ВЕРСІЯ (макет Figma) -->
+            <section id="main-desktop"><h3>Головна сторінка — десктопна версія</h3><p>Макет головної сторінки WEB-застосунку Velora для настільних екранів (Figma). Макет можна прокручувати.</p><div class="shot"><img src="desktop.png" alt="Макет головної сторінки Velora — десктопна версія"></div></section>
+
+            <!-- РОЗДІЛ: МОБІЛЬНА ВЕРСІЯ (макет Figma) -->
+            <section id="main-mobile"><h3>Головна сторінка — мобільна версія</h3><p>Макет головної сторінки WEB-застосунку Velora для мобільних пристроїв (Figma). Макет можна прокручувати.</p><div class="shot mobile"><img src="mobileversion.png" alt="Макет головної сторінки Velora — мобільна версія"></div></section>
+
+            <!-- РОЗДІЛ: КОД ГОЛОВНОЇ СТОРІНКИ -->
+            <section id="main-code"><h3>Код головної сторінки WEB-застосунку</h3><p>Файл <code>index.html</code> WEB-застосунку Velora:</p><pre class="long"><code>&lt;!DOCTYPE html&gt; &lt;!-- документ HTML5 --&gt;
+&lt;html lang=&quot;uk&quot;&gt; &lt;!-- мова сторінки — українська --&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt; &lt;!-- кодування символів --&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt; &lt;!-- коректний масштаб на мобільних --&gt;
+  &lt;title&gt;Velora — кав’ярня | Головна&lt;/title&gt; &lt;!-- заголовок вкладки --&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;!-- ШАПКА --&gt;
+  &lt;header&gt; &lt;!-- семантичний тег: шапка --&gt;
+    &lt;h1&gt;Velora&lt;/h1&gt; &lt;!-- головний заголовок сторінки --&gt;
+    &lt;nav&gt; &lt;!-- семантичний тег: навігація --&gt;
+      &lt;ul&gt; &lt;!-- список посилань --&gt;
+        &lt;li&gt;&lt;a href=&quot;#popular&quot;&gt;Улюблене&lt;/a&gt;&lt;/li&gt; &lt;!-- якір до розділу з id=popular --&gt;
+        &lt;li&gt;&lt;a href=&quot;#about&quot;&gt;Про нас&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#menu&quot;&gt;Меню&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#places&quot;&gt;Адреси&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;about.html&quot;&gt;Опис предметної галузі та бізнес-логіки&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#booking&quot;&gt;Забронювати стіл&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/nav&gt;
+  &lt;/header&gt;
+
+  &lt;main&gt; &lt;!-- семантичний тег: основний вміст --&gt;
+
+    &lt;!-- HERO --&gt;
+    &lt;section id=&quot;hero&quot;&gt; &lt;!-- семантичний тег: тематичний розділ --&gt;
+      &lt;p&gt;Бездоганний смак і пристрасть&lt;/p&gt;
+      &lt;h2&gt;Смачна кава, чудові миті&lt;/h2&gt; &lt;!-- заголовок другого рівня --&gt;
+      &lt;p&gt;Готуємо з любов’ю: свіжообсмажене зерно, випічка щоранку і місце, куди хочеться повертатись.&lt;/p&gt;
+      &lt;p&gt;
+        &lt;a href=&quot;#menu&quot;&gt;Дивитись меню&lt;/a&gt; |
+        &lt;a href=&quot;#booking&quot;&gt;Забронювати&lt;/a&gt;
+      &lt;/p&gt;
+      &lt;figure&gt; &lt;!-- ілюстрація з підписом --&gt;
+        &lt;img src=&quot;mainphoto.png&quot; alt=&quot;Лате в керамічній чашці на дерев’яному столі&quot; width=&quot;400&quot;&gt; &lt;!-- зображення: src, alt, width --&gt;
+        &lt;figcaption&gt;Кава. Спокій. Велора. &lt;em&gt;Смакуйте мить&lt;/em&gt;&lt;/figcaption&gt;
+      &lt;/figure&gt;
+    &lt;/section&gt;
+
+    &lt;!-- ПЕРЕВАГИ (маркований список) --&gt;
+    &lt;section id=&quot;advantages&quot;&gt;
+      &lt;h2&gt;Чому обирають нас&lt;/h2&gt;
+      &lt;ul&gt; &lt;!-- маркований список переваг --&gt;
+        &lt;li&gt;&lt;strong&gt;Якісне зерно&lt;/strong&gt; — лише відібрана арабіка&lt;/li&gt;
+        &lt;li&gt;&lt;strong&gt;Майстри-баристи&lt;/strong&gt; — точність у кожній чашці&lt;/li&gt;
+        &lt;li&gt;&lt;strong&gt;Чесні постачальники&lt;/strong&gt; — відповідальний вибір&lt;/li&gt;
+        &lt;li&gt;&lt;strong&gt;З любов’ю&lt;/strong&gt; — кожна чашка зі старанням&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/section&gt;
+
+    &lt;!-- УЛЮБЛЕНЕ ГОСТЕЙ --&gt;
+    &lt;section id=&quot;popular&quot;&gt;
+      &lt;p&gt;Популярне&lt;/p&gt;
+      &lt;h2&gt;Улюблене гостей&lt;/h2&gt;
+
+      &lt;article&gt; &lt;!-- самодостатній блок: картка напою --&gt;
+        &lt;img src=&quot;cappuccino.png&quot; alt=&quot;Капучино&quot; width=&quot;200&quot;&gt;
+        &lt;h3&gt;Капучино&lt;/h3&gt;
+        &lt;p&gt;Класика з ніжною пінкою&lt;/p&gt;
+        &lt;p&gt;&lt;strong&gt;85 ₴&lt;/strong&gt;&lt;/p&gt;
+      &lt;/article&gt;
+
+      &lt;article&gt;
+        &lt;img src=&quot;icedlate.png&quot; alt=&quot;Айс-латте&quot; width=&quot;200&quot;&gt;
+        &lt;h3&gt;Айс-латте&lt;/h3&gt;
+        &lt;p&gt;Еспресо з холодним молоком&lt;/p&gt;
+        &lt;p&gt;&lt;strong&gt;95 ₴&lt;/strong&gt;&lt;/p&gt;
+      &lt;/article&gt;
+
+      &lt;article&gt;
+        &lt;img src=&quot;flatwhite.png&quot; alt=&quot;Флет вайт&quot; width=&quot;200&quot;&gt;
+        &lt;h3&gt;Флет вайт&lt;/h3&gt;
+        &lt;p&gt;Насичений, з оксамитовим молоком&lt;/p&gt;
+        &lt;p&gt;&lt;strong&gt;95 ₴&lt;/strong&gt;&lt;/p&gt;
+      &lt;/article&gt;
+
+      &lt;article&gt;
+        &lt;img src=&quot;mocha.png&quot; alt=&quot;Мокка&quot; width=&quot;200&quot;&gt;
+        &lt;h3&gt;Мокка&lt;/h3&gt;
+        &lt;p&gt;Шоколад і еспресо&lt;/p&gt;
+        &lt;p&gt;&lt;strong&gt;105 ₴&lt;/strong&gt;&lt;/p&gt;
+      &lt;/article&gt;
+
+      &lt;article&gt;
+        &lt;img src=&quot;espresso.png&quot; alt=&quot;Еспресо&quot; width=&quot;200&quot;&gt;
+        &lt;h3&gt;Еспресо&lt;/h3&gt;
+        &lt;p&gt;Міцний і яскравий&lt;/p&gt;
+        &lt;p&gt;&lt;strong&gt;55 ₴&lt;/strong&gt;&lt;/p&gt;
+      &lt;/article&gt;
+
+      &lt;p&gt;&lt;a href=&quot;#menu&quot;&gt;Усе меню&lt;/a&gt;&lt;/p&gt;
+    &lt;/section&gt;
+
+    &lt;!-- ПРО НАС --&gt;
+    &lt;section id=&quot;about&quot;&gt;
+      &lt;p&gt;Наша історія&lt;/p&gt;
+      &lt;h2&gt;Більше, ніж просто кава&lt;/h2&gt;
+      &lt;p&gt;Velora — це запрошення сповільнитися. Відчути аромат кави, обрати щось смачне до неї та побути в моменті — наодинці з думками або поруч із близькими.&lt;/p&gt;
+      &lt;p&gt;Ми цінуємо прості речі: уважність до зерна, турботу в кожній чашці й теплі розмови за столом. Саме з таких деталей складаються чудові миті.&lt;/p&gt;
+      &lt;figure&gt;
+        &lt;img src=&quot;history.png&quot; alt=&quot;Бариста наливає молоко в чашку з кавою&quot; width=&quot;400&quot;&gt;
+        &lt;figcaption&gt;У кожній чашці — увага до деталей.&lt;/figcaption&gt;
+      &lt;/figure&gt;
+      &lt;p&gt;&lt;a href=&quot;#booking&quot;&gt;Приходьте в гості&lt;/a&gt;&lt;/p&gt;
+    &lt;/section&gt;
+
+    &lt;!-- МЕНЮ (таблиці) --&gt;
+    &lt;section id=&quot;menu&quot;&gt;
+      &lt;p&gt;Смачно і щодня&lt;/p&gt;
+      &lt;h2&gt;Меню&lt;/h2&gt;
+      &lt;p&gt;Улюблена кава, що солодке до неї та невимовні сніданки.&lt;/p&gt;
+
+      &lt;h3&gt;Напої&lt;/h3&gt;
+      &lt;table border=&quot;1&quot; cellpadding=&quot;6&quot; cellspacing=&quot;0&quot;&gt; &lt;!-- таблиця меню --&gt;
+        &lt;caption&gt;Напої&lt;/caption&gt;
+        &lt;thead&gt; &lt;!-- рядки заголовка --&gt;
+          &lt;tr&gt;&lt;th&gt;Напій&lt;/th&gt;&lt;th&gt;Об’єм&lt;/th&gt;&lt;th&gt;Ціна&lt;/th&gt;&lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt; &lt;!-- основна частина таблиці --&gt;
+          &lt;tr&gt;&lt;td&gt;Еспресо&lt;/td&gt;&lt;td&gt;30 мл&lt;/td&gt;&lt;td&gt;55 ₴&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Американо&lt;/td&gt;&lt;td&gt;250 мл&lt;/td&gt;&lt;td&gt;65 ₴&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Капучино&lt;/td&gt;&lt;td&gt;250 мл&lt;/td&gt;&lt;td&gt;85 ₴&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Фільтр-кава&lt;/td&gt;&lt;td&gt;300 мл&lt;/td&gt;&lt;td&gt;90 ₴&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Лате&lt;/td&gt;&lt;td&gt;300 мл&lt;/td&gt;&lt;td&gt;90 ₴&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Айс-латте&lt;/td&gt;&lt;td&gt;350 мл&lt;/td&gt;&lt;td&gt;95 ₴&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Мокка&lt;/td&gt;&lt;td&gt;250 мл&lt;/td&gt;&lt;td&gt;105 ₴&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Чай на вибір&lt;/td&gt;&lt;td&gt;400 мл&lt;/td&gt;&lt;td&gt;70 ₴&lt;/td&gt;&lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+
+      &lt;h3&gt;Десерти&lt;/h3&gt;
+      &lt;table border=&quot;1&quot; cellpadding=&quot;6&quot; cellspacing=&quot;0&quot;&gt;
+        &lt;caption&gt;Десерти&lt;/caption&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;&lt;th&gt;Десерт&lt;/th&gt;&lt;th&gt;Вага&lt;/th&gt;&lt;th&gt;Ціна&lt;/th&gt;&lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;&lt;td&gt;Круасан з маслом&lt;/td&gt;&lt;td&gt;90 г&lt;/td&gt;&lt;td&gt;70 ₴&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Чізкейк&lt;/td&gt;&lt;td&gt;120 г&lt;/td&gt;&lt;td&gt;110 ₴&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Яблучний пиріг&lt;/td&gt;&lt;td&gt;130 г&lt;/td&gt;&lt;td&gt;95 ₴&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Брауні&lt;/td&gt;&lt;td&gt;100 г&lt;/td&gt;&lt;td&gt;85 ₴&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Медовик&lt;/td&gt;&lt;td&gt;130 г&lt;/td&gt;&lt;td&gt;100 ₴&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Макарун&lt;/td&gt;&lt;td&gt;40 г&lt;/td&gt;&lt;td&gt;60 ₴&lt;/td&gt;&lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+
+      &lt;h3&gt;Сніданки до 12:00&lt;/h3&gt;
+      &lt;table border=&quot;1&quot; cellpadding=&quot;6&quot; cellspacing=&quot;0&quot;&gt;
+        &lt;caption&gt;Сніданки до 12:00&lt;/caption&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;&lt;th&gt;Страва&lt;/th&gt;&lt;th&gt;Вага&lt;/th&gt;&lt;th&gt;Ціна&lt;/th&gt;&lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;&lt;td&gt;Сирники зі сметаною&lt;/td&gt;&lt;td&gt;200 г&lt;/td&gt;&lt;td&gt;130 ₴&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Омлет із зеленню&lt;/td&gt;&lt;td&gt;220 г&lt;/td&gt;&lt;td&gt;120 ₴&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Гранола з йогуртом&lt;/td&gt;&lt;td&gt;180 г&lt;/td&gt;&lt;td&gt;115 ₴&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Авокадо-тост&lt;/td&gt;&lt;td&gt;190 г&lt;/td&gt;&lt;td&gt;150 ₴&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;td&gt;Вівсянка з ягодами&lt;/td&gt;&lt;td&gt;250 г&lt;/td&gt;&lt;td&gt;105 ₴&lt;/td&gt;&lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+
+      &lt;p&gt;Маєте особливі побажання? Розкажіть нам перед замовленням.&lt;/p&gt;
+      &lt;p&gt;&lt;a href=&quot;#booking&quot;&gt;Забронювати стіл&lt;/a&gt;&lt;/p&gt;
+    &lt;/section&gt;
+
+    &lt;!-- НАШІ КАВ&#x27;ЯРНІ --&gt;
+    &lt;section id=&quot;places&quot;&gt;
+      &lt;p&gt;Атмосфера&lt;/p&gt;
+      &lt;h2&gt;Наші кав’ярні&lt;/h2&gt;
+      &lt;p&gt;Місце, де хочеться залишитися ще на одну чашку.&lt;/p&gt;
+
+      &lt;article&gt;
+        &lt;img src=&quot;facade.png&quot; alt=&quot;Фасад кав’ярні&quot; width=&quot;300&quot;&gt;
+        &lt;h3&gt;Фасад кав’ярні&lt;/h3&gt;
+        &lt;p&gt;Затишок починається з першого кроку.&lt;/p&gt;
+      &lt;/article&gt;
+
+      &lt;article&gt;
+        &lt;img src=&quot;hall.png&quot; alt=&quot;Зала кав’ярні&quot; width=&quot;300&quot;&gt;
+        &lt;h3&gt;Зала кав’ярні&lt;/h3&gt;
+        &lt;p&gt;Для теплих розмов і тихих пауз.&lt;/p&gt;
+      &lt;/article&gt;
+
+      &lt;article&gt;
+        &lt;img src=&quot;terrace.png&quot; alt=&quot;Тераса кав’ярні&quot; width=&quot;300&quot;&gt;
+        &lt;h3&gt;Тераса кав’ярні&lt;/h3&gt;
+        &lt;p&gt;Для митей зі смаком кави.&lt;/p&gt;
+      &lt;/article&gt;
+
+      &lt;h3&gt;Контакти&lt;/h3&gt;
+      &lt;address&gt; &lt;!-- семантичний тег: контактна інформація --&gt;
+        &lt;ul&gt; &lt;!-- контакти у списку --&gt;
+          &lt;li&gt;Адреса: м. Черкаси, вул. Садова, 14&lt;/li&gt;
+          &lt;li&gt;Години роботи: Пн–Нд, 08:00–22:00&lt;/li&gt;
+          &lt;li&gt;Телефон: &lt;a href=&quot;tel:+380675551428&quot;&gt;+380 67 555 14 28&lt;/a&gt;&lt;/li&gt; &lt;!-- tel: — посилання-дзвінок --&gt;
+        &lt;/ul&gt;
+      &lt;/address&gt;
+    &lt;/section&gt;
+
+    &lt;!-- ВІДГУКИ --&gt;
+    &lt;section id=&quot;reviews&quot;&gt;
+      &lt;p&gt;Ваші враження&lt;/p&gt;
+      &lt;h2&gt;Відгуки гостей&lt;/h2&gt;
+      &lt;blockquote&gt; &lt;!-- відгук гостя (цитата) --&gt;
+        &lt;p&gt;«Дуже затишне місце для неспішної кави. Особливо сподобалися капучино та свіжа випічка.»&lt;/p&gt;
+        &lt;footer&gt;&lt;strong&gt;Анна&lt;/strong&gt;, гість кав’ярні&lt;/footer&gt; &lt;!-- footer тут — підпис автора відгуку --&gt;
+      &lt;/blockquote&gt;
+      &lt;blockquote&gt;
+        &lt;p&gt;«Зайшли на сніданок і захотіли залишитися довше. Приємна атмосфера й уважна команда.»&lt;/p&gt;
+        &lt;footer&gt;&lt;strong&gt;Максим&lt;/strong&gt;, гість кав’ярні&lt;/footer&gt;
+      &lt;/blockquote&gt;
+      &lt;blockquote&gt;
+        &lt;p&gt;«Смачна кава, красивий простір і тепле обслуговування. Ідеально для зустрічі з друзями.»&lt;/p&gt;
+        &lt;footer&gt;&lt;strong&gt;Олена&lt;/strong&gt;, гість кав’ярні&lt;/footer&gt;
+      &lt;/blockquote&gt;
+    &lt;/section&gt;
+
+    &lt;!-- БРОНЮВАННЯ (нумерований список + форма) --&gt;
+    &lt;section id=&quot;booking&quot;&gt;
+      &lt;p&gt;Бронювання&lt;/p&gt;
+      &lt;h2&gt;Забронюйте стіл&lt;/h2&gt;
+      &lt;p&gt;Залиште заявку — ми зателефонуємо й підтвердимо бронь.&lt;/p&gt;
+
+      &lt;h3&gt;Як це працює&lt;/h3&gt;
+      &lt;ol&gt; &lt;!-- нумерований список кроків --&gt;
+        &lt;li&gt;Заповніть форму: ім’я, телефон, дата та кількість гостей.&lt;/li&gt;
+        &lt;li&gt;Надішліть заявку.&lt;/li&gt;
+        &lt;li&gt;Ми зателефонуємо та підтвердимо бронювання.&lt;/li&gt;
+        &lt;li&gt;Приходьте в гості!&lt;/li&gt;
+      &lt;/ol&gt;
+
+      &lt;h3&gt;Форма бронювання&lt;/h3&gt;
+      &lt;form action=&quot;#&quot; method=&quot;post&quot;&gt; &lt;!-- форма бронювання --&gt;
+        &lt;p&gt;
+          &lt;label for=&quot;name&quot;&gt;Ім’я:&lt;/label&gt;&lt;br&gt; &lt;!-- label зв’язано з полем через for та id --&gt;
+          &lt;input type=&quot;text&quot; id=&quot;name&quot; name=&quot;name&quot; placeholder=&quot;Ваше ім’я&quot; required&gt;
+        &lt;/p&gt;
+        &lt;p&gt;
+          &lt;label for=&quot;phone&quot;&gt;Телефон:&lt;/label&gt;&lt;br&gt;
+          &lt;input type=&quot;tel&quot; id=&quot;phone&quot; name=&quot;phone&quot; placeholder=&quot;+380&quot; required&gt; &lt;!-- поле для телефону --&gt;
+        &lt;/p&gt;
+        &lt;p&gt;
+          &lt;label for=&quot;date&quot;&gt;Дата:&lt;/label&gt;&lt;br&gt;
+          &lt;input type=&quot;date&quot; id=&quot;date&quot; name=&quot;date&quot; required&gt; &lt;!-- вибір дати --&gt;
+        &lt;/p&gt;
+        &lt;p&gt;
+          &lt;label for=&quot;guests&quot;&gt;Гостей:&lt;/label&gt;&lt;br&gt;
+          &lt;select id=&quot;guests&quot; name=&quot;guests&quot;&gt; &lt;!-- випадаючий список --&gt;
+            &lt;option value=&quot;1-2&quot;&gt;1–2&lt;/option&gt;
+            &lt;option value=&quot;3-4&quot;&gt;3–4&lt;/option&gt;
+            &lt;option value=&quot;5-6&quot;&gt;5–6&lt;/option&gt;
+            &lt;option value=&quot;7+&quot;&gt;7+&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/p&gt;
+        &lt;p&gt;
+          &lt;label for=&quot;wishes&quot;&gt;Побажання:&lt;/label&gt;&lt;br&gt;
+          &lt;textarea id=&quot;wishes&quot; name=&quot;wishes&quot; rows=&quot;4&quot; cols=&quot;40&quot; placeholder=&quot;Наприклад, місце біля вікна&quot;&gt;&lt;/textarea&gt; &lt;!-- багаторядкове поле --&gt;
+        &lt;/p&gt;
+        &lt;p&gt;
+          &lt;button type=&quot;submit&quot;&gt;Надіслати заявку&lt;/button&gt; &lt;!-- кнопка надсилання --&gt;
+          &lt;button type=&quot;reset&quot;&gt;Очистити&lt;/button&gt;
+        &lt;/p&gt;
+        &lt;p&gt;&lt;small&gt;Бронювання підтверджується після дзвінка.&lt;/small&gt;&lt;/p&gt;
+      &lt;/form&gt;
+    &lt;/section&gt;
+
+  &lt;/main&gt;
+
+  &lt;!-- ПІДВАЛ --&gt;
+  &lt;footer&gt; &lt;!-- семантичний тег: підвал сторінки --&gt;
+    &lt;h2&gt;Velora&lt;/h2&gt;
+    &lt;p&gt;Смачна кава, чудові миті.&lt;/p&gt;
+    &lt;nav&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&quot;#popular&quot;&gt;Улюблене&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#about&quot;&gt;Про нас&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#menu&quot;&gt;Меню&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#places&quot;&gt;Адреси&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;about.html&quot;&gt;Предметна галузь і бізнес-логіка&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/nav&gt;
+    &lt;p&gt;&lt;small&gt;© Кав’ярня Velora&lt;/small&gt;&lt;/p&gt;
+  &lt;/footer&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></section>
+
+            <!-- РОЗДІЛ: ВИСНОВКИ -->
+            <section id="conclusions"><h3>Висновки</h3><p>У ході лабораторної роботи №1 я вивчила структуру HTML-документа та розробила головну сторінку WEB-застосунку кав’ярні Velora. На сторінці використано заголовки різних рівнів, зображення з альтернативним текстом і підписами, таблиці меню зі структурою <code>caption</code>/<code>thead</code>/<code>tbody</code>, маркований і нумерований списки, форму бронювання та посилання, зокрема на сторінку з описом предметної галузі.</p><p>Я ознайомилася з тегами та атрибутами, що застосовуються для створення таблиць, зображень, списків і форм, та застосувала семантичні теги (<code>header</code>, <code>nav</code>, <code>main</code>, <code>section</code>, <code>article</code>, <code>figure</code>, <code>address</code>, <code>footer</code>). Також було створено звітний HTML-документ, розміщений на GitHub. Здобуті навички стануть основою для подальшого оформлення сторінок за допомогою CSS.</p></section>
+
+        </main>
+    </div>
+
+    <!-- ПІДВАЛ ЗВІТУ -->
+    <footer>
+        <p>© Звіти з лабораторних робіт, ІП-45</p>
+    </footer>
+
+</body>
+</html>
